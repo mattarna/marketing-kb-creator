@@ -1,0 +1,68 @@
+# D2 · Design system · NODO KB (riusato dal launcher)
+# Producer: launcher_skill:D2. Qui NON si riscrive la skill: si aggancia e si
+# porta la rubrica di completezza per l'assessment.
+
+code: "D2"
+name: "Design system"
+section: "FND"
+summary: >
+  Le regole visive complete del brand: palette con ruoli, font con gerarchia e
+  pesi, spacing, componenti base, regole d'uso e di contrasto, piu un reference
+  HTML. Con il solo documento chiunque produce una pagina on-brand senza domande.
+
+launcher_ref:
+  codes: ["D2"]
+  relation: same
+
+kb_status: reused
+stage: grows                       # un brand appena nato ha il brief (D3) ma non ancora
+                                   # il sistema formalizzato: l'assessment lo marca "non serve ancora"
+
+depends_on: ["D3"]                 # il sistema deriva dal brief identitario
+feeds: []                          # a valle stanno pagine/creativita (L*), non nodi KB
+coherence_with: ["D3", "D1"]
+
+completeness:
+  absent_when: "Nessun sistema visivo: esistono al piu asset sparsi, non regole."
+  partial_when:
+    - "C'e una palette e dei font ma senza ruoli assegnati e senza gerarchia"
+    - "Mancano le regole d'uso (cosa si fa e cosa NON si fa) o quelle di contrasto"
+    - "Manca il reference HTML che mette a terra le regole"
+    - "Path carico-esistente ma i conflitti col brand attuale non sono dichiarati"
+  complete_when:
+    - "Palette con ruolo assegnato a ogni colore (primario, secondario, accent, neutri, semantici)"
+    - "Font con gerarchia (display, heading, body) e pesi; spacing e regole di layout presenti"
+    - "Componenti base presenti (bottoni, card, form) e regole d'uso (fa / non fa)"
+    - "Regole di contrasto/leggibilita presenti + reference HTML che lo dimostra"
+    - "Se importato da esistente: sezione conflitti col brand esistente esplicitata"
+
+elicitation:
+  - "Hai gia un design system o asset di brand da caricare, o partiamo da zero?"
+  - "Che stile visivo vuoi (minimal, bold, elegante, raw...) e quali sono i colori e i font irrinunciabili?"
+  - "Ci sono cose che il brand NON deve mai fare visivamente (colori vietati, layout da evitare)?"
+
+execution:
+  executor_type: skill
+  producer: "launcher_skill:D2"
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "instance:D3.output"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Documento design system (token CSS + reference markdown) + reference HTML che lo mette a terra"
+
+verification:
+  levels: [deterministic, coherence]
+  checks:
+    - level: deterministic
+      rule: "Palette con ruoli, font con gerarchia e pesi, spacing, componenti base e reference HTML tutti presenti"
+    - level: deterministic
+      rule: "Regole d'uso (fa / non fa) e regole di contrasto/leggibilita presenti"
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

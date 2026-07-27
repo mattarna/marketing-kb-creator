@@ -1,0 +1,79 @@
+# KB-NUMBERS · Numeri / unit economics baseline · NODO KB
+# I numeri-base del business come asset evergreen, non il modello di un lancio
+# (quello e A4). Prezzi, margini, CAC/LTV, conversioni tipiche: la realta
+# economica su cui ogni strategia deve reggere.
+
+code: "KB-NUMBERS"
+name: "Numeri / unit economics baseline"
+section: "AST"
+summary: >
+  La baseline economica del business: prezzi e margini per prodotto, CAC e LTV
+  se noti, tassi di conversione tipici, valore medio ordine, ricorrenza. E il
+  banco di prova dei numeri: value ladder, offerta e canali devono reggere qui.
+
+launcher_ref:
+  codes: ["A4"]
+  relation: generalizes  # A4 = modello matematico di UN lancio; qui = baseline permanente del business.
+
+kb_status: new
+stage: core
+
+depends_on: []
+feeds: ["B1", "KB-VALUE-LADDER"]
+coherence_with: ["KB-VALUE-LADDER"]
+
+completeness:
+  absent_when: "Nessun numero: si decide a sensazione, prezzi e margini non tracciati."
+  partial_when:
+    - "Ci sono i prezzi ma non i margini (non si sa cosa resta)"
+    - "Manca ogni nozione di CAC/LTV o di conversione tipica"
+    - "I numeri esistono ma vecchi/non verificati (non sono la baseline reale)"
+  complete_when:
+    - "Prezzo e margine per prodotto/gradino"
+    - "Valore medio ordine e, se ricorrente, il valore nel tempo"
+    - "CAC e LTV se disponibili, o almeno l'ordine di grandezza dichiarato"
+    - "Tassi di conversione tipici dei passaggi chiave (se noti)"
+    - "Fonte e data di ogni numero (baseline verificata, non a memoria)"
+
+elicitation:
+  - "Quanto vendi ogni cosa e quanto ti resta di margine?"
+  - "Quanto ti costa acquisire un cliente e quanto vale nel tempo?"
+  - "Che conversioni vedi di solito nei passaggi chiave del tuo funnel?"
+  - "Questi numeri da dove vengono e a quando risalgono? Sono verificati o a sensazione?"
+
+tasks:
+  - "Raccogliere prezzi e margini per prodotto (da materiale o dichiarazione)"
+  - "Raccogliere CAC/LTV e conversioni tipiche se disponibili"
+  - "Segnare fonte e data di ogni numero"
+  - "Marcare esplicitamente i numeri stimati vs verificati"
+  - "Comporre la baseline unit economics"
+
+execution:
+  executor_type: skill
+  producer: "skill:kb-numbers-baseline"   # gap vero: skill nativa di questo plugin
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Baseline unit economics: prezzi, margini, CAC/LTV, conversioni, con fonte e data"
+
+verification:
+  levels: [deterministic, coherence, llm_quality, human]
+  checks:
+    - level: deterministic
+      rule: "Prezzo e margine presenti per ogni prodotto/gradino"
+    - level: deterministic
+      rule: "Ogni numero ha fonte e data, ed e marcato stimato o verificato"
+    - level: coherence
+      rule: "I prezzi coincidono con quelli della value ladder"
+      against: "KB-VALUE-LADDER"
+  # llm_quality: trigger · numeri a memoria spacciati per verificati, margini assenti,
+  #   LTV gonfiato senza base, conversioni ottimistiche non dichiarate come stime.
+  # human: e la realta economica; la firma chi tiene i conti.
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

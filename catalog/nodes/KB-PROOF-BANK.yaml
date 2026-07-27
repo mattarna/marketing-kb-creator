@@ -1,0 +1,93 @@
+# KB-PROOF-BANK · Proof / asset bank · NODO KB
+# Il serbatoio vivo delle prove del brand: testimonial, case study, dati,
+# credenziali, screenshot. Generalizza R3 del launcher (che le raccoglie PER un
+# lancio): qui e un asset permanente, indicizzato, da cui ogni pagina/email pesca.
+
+code: "KB-PROOF-BANK"
+name: "Proof / asset bank"
+section: "AST"
+summary: >
+  Archivio indicizzato di tutte le prove: testimonial, case study con numeri,
+  dati proprietari, credenziali/autorita, screenshot di risultati, endorsement.
+  Ogni prova taggata per claim che sostiene e per fase del ciclo, cosi copy e
+  contenuti pescano la prova giusta al posto giusto.
+
+launcher_ref:
+  codes: ["R3"]
+  relation: generalizes  # R3 = raccolta testimonial/case per un lancio; qui = banca permanente e viva.
+
+kb_status: reused       # metodo di raccolta/indicizzazione gia coperto (ricognizione 2026-07-27):
+                        # marketing r3 (sistema di raccolta) + launcher J4 (inventario/classificazione).
+                        # Il DELTA nuovo e l'archivio PERSISTENTE e vivo tra i lanci, non l'atto di raccolta.
+stage: core
+
+depends_on: ["B5"]
+feeds: ["KB-NARRATIVE", "C1"]
+coherence_with: ["B5", "KB-NARRATIVE"]
+
+completeness:
+  absent_when: "Nessun archivio: le prove sono sparse o inesistenti, si citano a memoria."
+  partial_when:
+    - "Esistono testimonial ma non indicizzati (non si sa quale claim sostengono)"
+    - "Ci sono prove ma solo di un tipo (solo testimonial, nessun dato/case)"
+    - "Le prove non sono taggate per fase del ciclo o per pilastro del messaggio"
+  complete_when:
+    - "Almeno 4 tipi di prova presenti: testimonial, case study con numeri, dati, credenziali/autorita"
+    - "Ogni prova indicizzata: quale claim/pilastro sostiene"
+    - "Ogni prova taggata per fase del ciclo dove si usa"
+    - "Case study con struttura problema→intervento→risultato numerico"
+    - "Meccanismo di aggiornamento (come nuove prove entrano nella banca)"
+
+elicitation:
+  - "Che prove hai che il tuo metodo funziona? Testimonial, numeri, casi, credenziali?"
+  - "Per ogni claim forte che fai, quale prova lo sostiene?"
+  - "Hai case study con numeri (prima/dopo)? Chi, cosa, quanto?"
+  - "Come raccogli nuove prove oggi? E' un processo o capita?"
+
+tasks:
+  - "Inventariare tutte le prove esistenti (da materiale e da VoC B5)"
+  - "Classificare per tipo (testimonial, case, dato, credenziale, screenshot)"
+  - "Indicizzare ogni prova per claim/pilastro sostenuto e per fase del ciclo"
+  - "Strutturare i case study (problema→intervento→risultato numerico)"
+  - "Definire il meccanismo di aggiornamento della banca"
+  - "Comporre il proof bank indicizzato"
+
+execution:
+  executor_type: compose
+  producer: "marketing_skill:r3"    # sistema di raccolta testimonial/case
+  delta:
+    - "archivio persistente e indicizzato che vive TRA i lanci (r3/J4 sono one-shot per lancio)"
+    - "tagging per claim/pilastro e per fase del ciclo, + meccanismo di aggiornamento"
+  inputs:
+    - ref: "marketing_skill:r3"     # raccolta
+    - ref: "launcher_skill:J4"      # inventario/classificazione social proof
+      required: false
+    - ref: "existing_material"
+      required: false
+    - ref: "human_input"
+    - ref: "kb:B5.output"
+      required: false
+  output:
+    format: markdown
+    description: "Proof bank indicizzato: prove per tipo, claim sostenuto, fase del ciclo"
+
+verification:
+  levels: [deterministic, coherence, llm_quality, human]
+  checks:
+    - level: deterministic
+      rule: "Almeno 4 tipi di prova presenti (testimonial, case, dato, credenziale)"
+    - level: deterministic
+      rule: "Ogni prova indicizzata per claim/pilastro sostenuto"
+    - level: deterministic
+      rule: "I case study hanno struttura problema-intervento-risultato numerico"
+    - level: coherence
+      rule: "I claim sostenuti dalle prove esistono come pilastri in KB-NARRATIVE"
+      against: "KB-NARRATIVE"
+  # llm_quality: trigger · testimonial vaghi senza risultato, case senza numeri,
+  #   prove tutte dello stesso tipo, nessuna prova per i claim piu forti.
+  # human: verifica di veridicita (le prove devono essere reali); la firma il founder.
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

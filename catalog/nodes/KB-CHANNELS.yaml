@@ -1,0 +1,84 @@
+# KB-CHANNELS · Strategia canali + content/GTM · NODO KB
+# Come il brand arriva al mercato, in modo evergreen (non l'adv di un singolo
+# lancio, che e C4). Owned/earned/paid, canale primario, pilastri di contenuto.
+
+code: "KB-CHANNELS"
+name: "Strategia canali + content"
+section: "GTM"
+summary: >
+  La mappa di come il brand raggiunge e nutre il mercato in modo continuo:
+  mix owned/earned/paid, canale primario e ruolo di ognuno, pilastri di
+  contenuto ricorrenti, cadenza. E il piano di distribuzione evergreen da cui
+  i lanci prendono i loro canali.
+
+launcher_ref:
+  codes: ["C4"]
+  relation: generalizes  # C4 = strategia adv di un lancio; qui = distribuzione evergreen del brand.
+
+kb_status: new
+stage: core
+
+depends_on: ["B1", "B2", "KB-NARRATIVE"]
+feeds: ["KB-LIFECYCLE"]
+coherence_with: ["B2", "KB-NARRATIVE"]
+
+completeness:
+  absent_when: "Nessuna strategia di canale: si posta a caso, nessun canale primario."
+  partial_when:
+    - "C'e un canale attivo ma nessun ruolo definito (owned/earned/paid non distinti)"
+    - "Si produce contenuto senza pilastri ricorrenti"
+    - "Manca la logica di dove vive il pubblico (canale scelto per abitudine, non per l'avatar)"
+  complete_when:
+    - "Canale primario identificato e giustificato dall'avatar (dove vive il pubblico, B2)"
+    - "Mix owned/earned/paid con il ruolo di ciascuno"
+    - "3-5 pilastri di contenuto ricorrenti, agganciati alla Message House"
+    - "Cadenza sostenibile dichiarata per canale"
+    - "Meccanismo di distribuzione/ripurposing tra canali"
+
+elicitation:
+  - "Dove vive davvero il tuo pubblico? Su quale canale ti gioca il primario?"
+  - "Cosa possiedi (lista, sito), cosa ti guadagni (organico, PR), cosa paghi (ads)?"
+  - "Di cosa parli in modo ricorrente? Quali 3-5 temi tornano sempre?"
+  - "Quale cadenza riesci a tenere davvero, non quella ideale?"
+
+tasks:
+  - "Identificare dove vive il pubblico (da B2) e scegliere il canale primario"
+  - "Mappare il mix owned/earned/paid con i ruoli"
+  - "Derivare 3-5 pilastri di contenuto dalla Message House (KB-NARRATIVE)"
+  - "Definire cadenza sostenibile e meccanismo di ripurposing"
+  - "Comporre la strategia canali + content"
+
+execution:
+  executor_type: skill
+  producer: "skill:kb-channels"      # gap vero: skill nativa di questo plugin
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "human_input"
+    - ref: "kb:B2.output"
+    - ref: "kb:KB-NARRATIVE.output"
+  output:
+    format: markdown
+    description: "Strategia canali: primario, mix owned/earned/paid, pilastri di contenuto, cadenza"
+
+verification:
+  levels: [deterministic, coherence, llm_quality, human]
+  checks:
+    - level: deterministic
+      rule: "Canale primario + mix owned/earned/paid presenti con ruoli"
+    - level: deterministic
+      rule: "3-5 pilastri di contenuto presenti"
+    - level: coherence
+      rule: "Il canale primario e coerente con dove vive l'avatar B2"
+      against: "B2"
+    - level: coherence
+      rule: "I pilastri di contenuto derivano dalla Message House di KB-NARRATIVE"
+      against: "KB-NARRATIVE"
+  # llm_quality: trigger · 'siamo su tutti i canali', pilastri scollegati dal messaggio,
+  #   cadenza irrealistica, canale scelto per moda e non per l'avatar.
+  # human: decisione di allocazione; la firma chi possiede il marketing.
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

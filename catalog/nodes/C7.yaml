@@ -1,0 +1,69 @@
+# C7 · Referral system design · NODO KB (riusato dal launcher)
+# Producer: launcher_skill:C7. Qui NON si riscrive la skill: si aggancia e si
+# porta la rubrica di completezza per l'assessment.
+
+code: "C7"
+name: "Referral system design"
+section: "GTM"
+summary: >
+  Il design del sistema di referral: meccanica, incentivi per chi referisce e
+  per chi viene referito, tracking definito e pagine dedicate mappate nel funnel.
+  L'incentivo non deve mai cannibalizzare il valore dell'offerta.
+
+launcher_ref:
+  codes: ["C7"]
+  relation: same
+
+kb_status: reused
+stage: grows                       # conditional nel launcher (referral == true); qui e un nodo che
+                                   # ha senso solo a certi stadi, l'assessment lo marca "non serve ancora"
+
+depends_on: ["C1", "C3"]           # offerta (per non cannibalizzarla) e funnel (per mappare le pagine)
+feeds: []                          # a valle nel launcher sta F3 (non nodo KB)
+coherence_with: ["C1", "C3"]
+
+completeness:
+  absent_when: "Nessun referral system: non esiste una meccanica di passaparola incentivato."
+  partial_when:
+    - "C'e un'idea di incentivo ma senza meccanica di tracking definita"
+    - "Mancano le pagine dedicate o non sono mappate nel funnel C3"
+    - "L'incentivo rischia di cannibalizzare il valore dell'offerta C1"
+  complete_when:
+    - "Meccanica completa presente (come si attiva e come funziona il loop)"
+    - "Incentivi definiti per chi referisce e, se previsto, per chi viene referito"
+    - "Tracking definito (link personalizzato, codice, form)"
+    - "Pagine referral elencate e mappate nell'architettura C3 (nessuna pagina orfana)"
+    - "L'incentivo non cannibalizza il valore che l'offerta C1 vende"
+
+elicitation:
+  - "Cosa riceve chi porta un amico, e cosa riceve l'amico portato?"
+  - "Come tracci chi ha referito chi: link, codice, form?"
+  - "L'incentivo che vuoi dare e qualcosa che l'offerta gia vende come valore? (se si, va cambiato)"
+
+execution:
+  executor_type: skill
+  producer: "launcher_skill:C7"
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "instance:C1.output"
+      required: false
+    - ref: "instance:C3.output"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Meccanica completa: incentivi, tracking, pagine dedicate + integrazione nel flusso"
+
+verification:
+  levels: [deterministic, coherence]
+  checks:
+    - level: deterministic
+      rule: "Meccanica, incentivi, tracking e pagine referral tutti definiti"
+    - level: deterministic
+      rule: "Le pagine referral sono mappate in C3 e l'incentivo non cannibalizza il valore dell'offerta C1"
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

@@ -1,0 +1,92 @@
+# KB-VALUE-LADDER · Portfolio + value ladder + pricing · NODO KB
+# La scala d'offerta completa del business, non la singola offerta (quella e C1).
+# Generalizza C1: C1 progetta UN gradino; questo mappa tutti i gradini, come si
+# collegano, e l'architettura di prezzo tra loro.
+
+code: "KB-VALUE-LADDER"
+name: "Portfolio + value ladder"
+section: "OFR"
+summary: >
+  L'ecosistema d'offerta: tutti i prodotti/servizi come gradini di una scala di
+  valore (dal lead magnet al high-ticket), come un cliente sale, l'architettura
+  di prezzo tra i gradini, e i buchi/sovrapposizioni della scala.
+
+launcher_ref:
+  codes: ["C1"]
+  relation: generalizes  # C1 = un gradino (offer design); qui = tutta la scala + pricing tra gradini.
+
+kb_status: reused       # pienamente coperto da skill esistenti (ricognizione 2026-07-27):
+                        # marketing a2 (FASE 5 value ladder) + a4b (portfolio/sequencing/MRR).
+                        # Nessuna skill nuova: si aggancia e si estrae come asset evergreen.
+stage: grows            # un business con un solo prodotto non ha ancora una scala:
+                        # l'assessment lo marca "non serve ancora", non "mancante".
+
+depends_on: ["B1", "KB-NUMBERS"]
+feeds: ["C1", "KB-LIFECYCLE"]
+coherence_with: ["KB-NUMBERS", "C1"]
+
+completeness:
+  absent_when: "Nessuna mappa d'offerta: i prodotti esistono ma non sono visti come scala."
+  partial_when:
+    - "I prodotti sono elencati ma senza logica di scala (come si sale)"
+    - "Manca l'architettura di prezzo tra i gradini (perche questo prezzo, questo salto)"
+    - "Non e chiaro quale gradino e il profit-center e quale il piede-nella-porta"
+  complete_when:
+    - "Tutti i prodotti mappati come gradini con ruolo (front-end / core / high-ticket / continuity)"
+    - "Percorso di salita: come e perche un cliente passa da un gradino al successivo"
+    - "Architettura di prezzo: prezzo per gradino con rationale del salto"
+    - "Profit-center e piede-nella-porta identificati"
+    - "Buchi e sovrapposizioni della scala nominati (gradini mancanti o ridondanti)"
+
+elicitation:
+  - "Elenca tutto cio che vendi o potresti vendere, dal gratis al piu caro."
+  - "Come sale un cliente da un prodotto al successivo? Cosa lo fa salire?"
+  - "Quale prodotto fa davvero i soldi? Quale serve solo a far entrare la gente?"
+  - "Ci sono gradini mancanti (un salto di prezzo troppo grande) o prodotti che si pestano i piedi?"
+
+tasks:
+  - "Inventariare tutti i prodotti/servizi (esistenti e potenziali)"
+  - "Assegnare a ognuno il ruolo nella scala (front-end / core / high-ticket / continuity)"
+  - "Disegnare il percorso di salita tra gradini"
+  - "Definire l'architettura di prezzo con rationale del salto (verificare in KB-NUMBERS)"
+  - "Nominare buchi e sovrapposizioni"
+  - "Comporre la mappa value ladder"
+
+execution:
+  executor_type: compose
+  producer: "marketing_skill:a2"    # FASE 5: value ladder + upgrade path + prezzi
+  delta:
+    - "estrazione come documento evergreen standalone (a2 lo produce dentro l'offer design)"
+  inputs:
+    - ref: "marketing_skill:a2"     # offer design + value ladder + pricing
+    - ref: "marketing_skill:a4b"    # portfolio/sequencing, MRR engine
+      required: false
+    - ref: "existing_material"
+      required: false
+    - ref: "human_input"
+    - ref: "kb:KB-NUMBERS.output"
+      required: false
+  output:
+    format: markdown
+    description: "Mappa value ladder: gradini con ruolo, percorso di salita, architettura di prezzo"
+
+verification:
+  levels: [deterministic, coherence, llm_quality, human]
+  checks:
+    - level: deterministic
+      rule: "Ogni prodotto ha un ruolo assegnato nella scala"
+    - level: deterministic
+      rule: "Prezzo per gradino presente con rationale del salto"
+    - level: deterministic
+      rule: "Profit-center e front-end identificati"
+    - level: coherence
+      rule: "I prezzi e i margini della scala reggono in KB-NUMBERS"
+      against: "KB-NUMBERS"
+  # llm_quality: trigger · scala senza logica di salita, prezzi senza rationale,
+  #   tutti i gradini trattati come 'core', nessun front-end reale.
+  # human: decisione economica di portafoglio; la firma il founder.
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

@@ -1,0 +1,108 @@
+# KB-NARRATIVE · Narrativa strategica · NODO KB
+# UN documento, quattro sezioni distinte e citate (decisione Matt 2026-07-27):
+# Big Idea, Meccanismo Unico, Angoli, Message House. Sono cose diverse ma dello
+# stesso ceppo: stanno insieme per non ripetersi e non contraddirsi. Ogni sezione
+# ha il suo producer (Meccanismo e Angoli riusano le skill del launcher B7/B8).
+
+code: "KB-NARRATIVE"
+name: "Narrativa strategica"
+section: "STR"
+summary: >
+  Il cuore di senso del marketing, in un solo documento a sezioni: la Big Idea
+  di categoria, il Meccanismo Unico (perche funziona), gli Angoli di attacco
+  (le porte d'ingresso tattiche) e la Message House (core message + pilastri +
+  proof riusabili). E la fonte da cui pescano copy, contenuti, offerta e lanci.
+
+launcher_ref:
+  codes: ["B7", "B8"]
+  relation: generalizes  # ingloba meccanismo (B7) e angoli (B8) come sezioni, e aggiunge
+                         # Big Idea e Message House che il launcher non ha come documento.
+
+kb_status: new
+stage: core
+
+# Ricognizione 2026-07-27: 3 sezioni su 4 sono RIUSO (big-idea, meccanismo, angoli gia
+# coperti). L'unico producer nuovo da scrivere e la MESSAGE HOUSE.
+sections:
+  - id: "big-idea"
+    name: "Big Idea di categoria"
+    producer: "marketing_skill:p6"       # riuso: unique-mechanism/big-idea gia coperto (p6 + launcher B7)
+  - id: "meccanismo-unico"
+    name: "Meccanismo Unico"
+    producer: "launcher_skill:B7"        # riuso: perche funziona dove altri falliscono
+  - id: "angoli"
+    name: "Angoli di attacco"
+    producer: "launcher_skill:B8"        # riuso: le porte d'ingresso tattiche sullo stesso core
+  - id: "message-house"
+    name: "Message House"
+    producer: "skill:kb-message-house"   # NUOVO (unico gap vero della narrativa):
+                                         # core message + 3-5 pilastri + proof point per pilastro
+
+depends_on: ["KB-BRAND-CORE", "B1", "B2", "B3"]
+feeds: ["KB-CHANNELS", "C1", "KB-PROOF-BANK"]
+coherence_with: ["KB-BRAND-CORE", "B1", "C1"]
+
+completeness:
+  absent_when: "Nessuna delle quattro sezioni articolata: non c'e un'idea centrale ne un messaggio."
+  partial_when:
+    - "Esiste il messaggio ma senza una Big Idea che lo inquadra"
+    - "C'e il meccanismo ma nessun pilastro/proof strutturato (Message House)"
+    - "Gli angoli esistono ma sono scollegati dal meccanismo (non sono porte sullo stesso core)"
+  complete_when:
+    - "Big Idea: una tesi non ovvia, coerente col nemico/manifesto di KB-BRAND-CORE"
+    - "Meccanismo Unico: perche l'approccio funziona, con la meccanica reale (non slogan)"
+    - "Angoli: 3+ porte d'ingresso, ognuna riconducibile allo stesso meccanismo"
+    - "Message House: core message in una frase + 3-5 pilastri + almeno un proof per pilastro"
+    - "Coerenza interna: le quattro sezioni raccontano UNA storia, non quattro"
+
+elicitation:
+  - "Qual e l'idea centrale, quella che se il cliente la capisce cambia come vede il problema?"
+  - "Perche il vostro approccio funziona dove gli altri falliscono? Qual e la meccanica reale?"
+  - "In quanti modi diversi potete entrare nella testa del cliente sullo stesso meccanismo?"
+  - "Se doveste difendere la promessa in tribunale, quali 3-5 prove portereste?"
+
+tasks:
+  - "Derivare la Big Idea dal nucleo brand + posizionamento (B1) + sofisticazione (B3)"
+  - "Produrre/agganciare il Meccanismo Unico (skill launcher B7) con meccanica dichiarata"
+  - "Produrre/agganciare gli Angoli (skill launcher B8) riconducibili al meccanismo"
+  - "Costruire la Message House: core message, pilastri, proof per pilastro (da B5/KB-PROOF-BANK)"
+  - "Verificare che le 4 sezioni raccontino una sola storia (coerenza interna)"
+  - "Comporre il documento a sezioni nominate"
+
+execution:
+  executor_type: hybrid   # sezioni nuove via skill kb-narrative + sezioni B7/B8 via skill launcher
+  inputs:
+    - ref: "kb:KB-BRAND-CORE.output"
+    - ref: "kb:B1.output"
+    - ref: "kb:B2.output"
+    - ref: "kb:B3.output"
+    - ref: "kb:B5.output"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Documento Narrativa strategica a 4 sezioni: Big Idea, Meccanismo, Angoli, Message House"
+
+verification:
+  levels: [deterministic, coherence, llm_quality, human]
+  checks:
+    - level: deterministic
+      rule: "Tutte e 4 le sezioni presenti e nominate"
+    - level: deterministic
+      rule: "Message House: core message + almeno 3 pilastri + almeno 1 proof per pilastro"
+    - level: deterministic
+      rule: "Almeno 3 angoli, ciascuno mappato al meccanismo unico"
+    - level: coherence
+      rule: "La Big Idea e coerente col nemico/manifesto di KB-BRAND-CORE"
+      against: "KB-BRAND-CORE"
+    - level: coherence
+      rule: "La promessa della Message House regge sull'offerta C1 (stessa promessa)"
+      against: "C1"
+  # llm_quality: trigger · Big Idea ovvia, meccanismo senza meccanica, angoli scollegati,
+  #   pilastri senza proof, quattro sezioni che raccontano storie diverse.
+  # human: e la spina narrativa del brand; la firma il founder/CMO.
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

@@ -1,0 +1,68 @@
+# B6 · Halo Strategy · NODO KB (riusato dal launcher)
+# Producer: launcher_skill:B6. Qui NON si riscrive la skill: si aggancia e si
+# porta la rubrica di completezza per l'assessment.
+
+code: "B6"
+name: "Halo Strategy"
+section: "STR"
+summary: >
+  Ricerca profonda del cliente (metodo Sabri Suby) in 3 tabelle TEMA |
+  FRASE-TRIGGER: paure e dolori, sogni e aspirazioni, barriere/obiezioni. Le
+  frasi-trigger sono in prima persona, il pensiero esatto che il cliente si dice.
+
+launcher_ref:
+  codes: ["B6"]
+  relation: same
+
+kb_status: reused
+stage: grows                       # ha senso una volta che avatar e VOC esistono; l'assessment
+                                   # lo marca "non serve ancora" se B2/B5 sono assenti
+
+depends_on: ["B2", "B5"]           # estrae linguaggio reale da avatar e VOC
+feeds: ["C1", "KB-NARRATIVE"]
+coherence_with: ["B5", "B2"]
+
+completeness:
+  absent_when: "Nessuna Halo: non esistono le 3 tabelle di ricerca profonda del cliente."
+  partial_when:
+    - "Esiste solo una o due delle tre tabelle"
+    - "Le frasi sono in terza persona o linguaggio da agenzia, non pensiero in prima persona"
+    - "Manca la mappa riga -> fonte che ancora ogni frase a B5/B2"
+  complete_when:
+    - "3 tabelle presenti: paure/dolori, sogni/aspirazioni, barriere/incertezze/obiezioni"
+    - "Ogni tabella ha almeno 10 righe (target 10-15) con colonne TEMA e FRASE-TRIGGER"
+    - "Le frasi-trigger sono in prima persona, linguaggio reale, non claim di marketing"
+    - "Mappa riga -> fonte presente: ogni riga tracciabile a una frase di B5 o a un elemento di B2"
+
+elicitation:
+  - "Qual e il pensiero esatto, in prima persona, che il cliente si dice quando ha paura o dolore?"
+  - "E quando sogna il risultato: come lo formula dentro la sua testa, con le sue parole?"
+  - "Quali sono le frasi con cui si giustifica il 'no', le sue barriere e incertezze piu profonde?"
+
+execution:
+  executor_type: skill
+  producer: "launcher_skill:B6"
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "instance:B2.output"
+      required: false
+    - ref: "instance:B5.output"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "3 tabelle complete (10-15 righe ciascuna, TEMA | FRASE-TRIGGER) + mappa riga -> fonte"
+
+verification:
+  levels: [deterministic, coherence]
+  checks:
+    - level: deterministic
+      rule: "3 tabelle presenti, ognuna con almeno 10 righe e colonne TEMA e FRASE-TRIGGER, piu mappa riga -> fonte"
+    - level: deterministic
+      rule: "Le frasi-trigger sono in prima persona e tracciabili a una frase di B5 o a un elemento di B2 (no linguaggio da agenzia)"
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

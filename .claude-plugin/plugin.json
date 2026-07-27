@@ -1,0 +1,8 @@
+{
+  "name": "morfeus-marketing-kb",
+  "description": "Costruttore di knowledge base di marketing completa e omnicomprensiva. Fa un assessment della situazione (da zero, materiale sparso, business avviato), misura la completezza contro una KB ideale, chiede solo cio che manca e integra. Produce lo strato strategico evergreen di un brand, da cui i lanci pescano.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Matteo Arnaboldi - Morfeus"
+  }
+}

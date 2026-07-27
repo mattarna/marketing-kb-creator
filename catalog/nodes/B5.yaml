@@ -1,0 +1,65 @@
+# B5 · Voice of customer · NODO KB (riusato dal launcher)
+# Producer: launcher_skill:B5. Qui NON si riscrive la skill: si aggancia e si
+# porta la rubrica di completezza per l'assessment.
+
+code: "B5"
+name: "Voice of customer"
+section: "MKT"
+summary: >
+  Il linguaggio esatto del target estratto da fonti reali (recensioni, commenti,
+  DM, survey, trascrizioni), organizzato in pain / desiderio / obiezione, con la
+  fonte per ogni riga. Verbatim con fonte, o fuori. Alimenta avatar, tono, halo.
+
+launcher_ref:
+  codes: ["B5"]
+  relation: same
+
+kb_status: reused
+stage: core
+
+depends_on: ["B2"]                 # la VOC verifica e riempie l'avatar
+feeds: ["B2", "B6", "D1"]
+coherence_with: ["B2"]
+
+completeness:
+  absent_when: "Nessuna VOC: non ci sono frasi verbatim raccolte da fonti reali."
+  partial_when:
+    - "Ci sono frasi ma parafrasate/levigate da marketer, non verbatim"
+    - "Manca la colonna FONTE su una parte delle righe"
+    - "Le fonti sono tutte dello stesso tipo (campione distorto)"
+  complete_when:
+    - "Almeno 10 frasi verbatim per ciascuna categoria (pain, desiderio, obiezione)"
+    - "Ogni riga ha la colonna FONTE compilata con riferimento recuperabile"
+    - "Le fonti non sono tutte dello stesso tipo (mix di canali)"
+    - "Pain e desideri coerenti con l'avatar B2 (incoerenze segnalate, non ignorate)"
+
+elicitation:
+  - "Dove parla davvero il tuo cliente: recensioni, commenti, DM, survey, trascrizioni di call?"
+  - "Puoi darmi accesso a quelle fonti o incollarmi frasi reali, parola per parola?"
+  - "Quali sono le frasi che senti ripetere piu spesso quando descrive il problema o il desiderio?"
+
+execution:
+  executor_type: skill
+  producer: "launcher_skill:B5"
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "instance:B2.output"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "3 categorie di frasi verbatim (min 10 per categoria) con colonna FONTE"
+
+verification:
+  levels: [deterministic, coherence]
+  checks:
+    - level: deterministic
+      rule: "Almeno 10 frasi verbatim per categoria (pain, desiderio, obiezione), ognuna con colonna FONTE recuperabile"
+    - level: deterministic
+      rule: "Le fonti non sono tutte dello stesso tipo (mono-fonte = campione distorto = rifiuto)"
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

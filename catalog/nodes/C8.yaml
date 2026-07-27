@@ -1,0 +1,71 @@
+# C8 · Email architecture map · NODO KB (riusato dal launcher)
+# Producer: launcher_skill:C8. Qui NON si riscrive la skill: si aggancia e si
+# porta la rubrica di completezza per l'assessment.
+
+code: "C8"
+name: "Email architecture map"
+section: "GTM"
+summary: >
+  La mappa decisionale di TUTTI i flussi email: per ogni flusso pattern scelto,
+  numero email, obiettivo e tono, con interconnessioni e regole di priorita.
+  Precede la scrittura di qualsiasi sequenza ed e il guardiano della segmentazione.
+
+launcher_ref:
+  codes: ["C8"]
+  relation: same
+
+kb_status: reused
+stage: grows                       # orchestra flussi che esistono solo con un funnel e una
+                                   # segmentazione attivi; l'assessment non lo pretende prima
+
+depends_on: ["C3", "C6", "D1"]     # funnel (quali flussi esistono), segmentazione (cosa e vietato), tono (i confini)
+feeds: ["KB-LIFECYCLE"]
+coherence_with: ["C3", "C6", "D1"]
+
+completeness:
+  absent_when: "Nessuna mappa email: i flussi non sono progettati prima della scrittura."
+  partial_when:
+    - "Alcuni flussi mappati ma senza pattern/numero/obiettivo/tono per ognuno"
+    - "Numero email deciso per abitudine e non da regola"
+    - "Manca il check incrociato con C6 o le regole di priorita tra flussi"
+  complete_when:
+    - "Ogni flusso ha pattern scelto, numero email, obiettivo specifico e tono"
+    - "Il numero email di ogni flusso segue la regola parametrica (es. ~1/giorno in anticipazione per H1)"
+    - "Copertura completa dei flussi attivati dal funnel C3, e nessun flusso mappato assente dal funnel"
+    - "Interconnessioni e regole di priorita tra flussi presenti"
+    - "Check incrociato con C6: nessun invio previsto che la segmentazione vieta; tono per flusso dentro D1"
+
+elicitation:
+  - "Quali flussi email esistono davvero in questo lancio (pre-lancio, reminder, welcome, close, cart, post-acquisto)?"
+  - "Per ognuno: quante email, con che obiettivo e che tono, e perche proprio quel numero?"
+  - "Se un contatto e in piu flussi insieme, quale messaggio ha la precedenza?"
+
+execution:
+  executor_type: skill
+  producer: "launcher_skill:C8"
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "instance:C3.output"
+      required: false
+    - ref: "instance:C6.output"
+      required: false
+    - ref: "instance:D1.output"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Mappa flusso -> pattern -> numero -> obiettivo -> tono + interconnessioni + check incrociato C6"
+
+verification:
+  levels: [deterministic, coherence]
+  checks:
+    - level: deterministic
+      rule: "Ogni flusso ha pattern, numero email (da regola), obiettivo e tono, con interconnessioni e regole di priorita"
+    - level: deterministic
+      rule: "Check incrociato con C6 presente: nessun invio previsto che la segmentazione vieta"
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

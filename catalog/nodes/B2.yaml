@@ -1,0 +1,65 @@
+# B2 · Avatar del cliente ideale · NODO KB (riusato dal launcher)
+# Producer: launcher_skill:B2. Qui NON si riscrive la skill: si aggancia e si
+# porta la rubrica di completezza per l'assessment.
+
+code: "B2"
+name: "Avatar del cliente ideale"
+section: "MKT"
+summary: >
+  Profilo demografico e psicografico del cliente ideale con pain, desideri,
+  paure, tentativi falliti, obiezioni, momenti quotidiani e pattern di
+  comunicazione. Ogni pain abbastanza specifico da scriverci un hook senza domande.
+
+launcher_ref:
+  codes: ["B2"]
+  relation: same
+
+kb_status: reused
+stage: core
+
+depends_on: ["B1"]                 # e lo stesso cliente del posizionamento
+feeds: ["B5", "B6", "C1", "D1", "D3"]
+coherence_with: ["B1", "B5"]
+
+completeness:
+  absent_when: "Nessun avatar: il cliente e descritto solo come categoria demografica generica."
+  partial_when:
+    - "Ci sono demografia e qualche pain, ma tratti orizzontali validi per chiunque"
+    - "Mancano tentativi falliti, obiezioni prevedibili o momenti quotidiani"
+    - "Piu avatar sono mescolati senza dichiararlo"
+  complete_when:
+    - "Tutti e 7 i blocchi presenti: demografia-psicografia, pain e desideri, paure e rischi, tentativi falliti, obiezioni, momenti quotidiani, pattern di comunicazione"
+    - "5-7 pain point e 5-7 desideri/outcome, specifici (hook-ready)"
+    - "L'avatar e lo stesso cliente del posizionamento B1"
+    - "Ogni pain e desiderio collegato ad almeno una frase VOC di B5 (al re-check)"
+
+elicitation:
+  - "Chi e esattamente questa persona: eta, lavoro, situazione, cosa desidera diventare?"
+  - "Quali sono i suoi 5-7 dolori piu acuti e i 5-7 risultati che sogna, nelle sue parole?"
+  - "Cosa ha gia provato e non ha funzionato, e quali obiezioni fara alla tua offerta?"
+
+execution:
+  executor_type: skill
+  producer: "launcher_skill:B2"
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "instance:B1.output"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Avatar completo a 7 blocchi; dopo il re-check B5 ogni pain con frase VOC di conferma"
+
+verification:
+  levels: [deterministic, coherence]
+  checks:
+    - level: deterministic
+      rule: "Tutti e 7 i blocchi presenti, con 5-7 pain point e 5-7 desideri/outcome"
+    - level: deterministic
+      rule: "L'avatar descritto e lo stesso cliente del posizionamento B1 (nessun avatar orizzontale valido per chiunque)"
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

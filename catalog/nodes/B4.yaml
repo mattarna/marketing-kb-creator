@@ -1,0 +1,66 @@
+# B4 · Analisi competitor · NODO KB (riusato dal launcher)
+# Producer: launcher_skill:B4. Qui NON si riscrive la skill: si aggancia e si
+# porta la rubrica di completezza per l'assessment.
+
+code: "B4"
+name: "Analisi competitor"
+section: "MKT"
+summary: >
+  Reverse engineering di 3-5 competitor principali (offerta, funnel, hook,
+  prezzo, posizionamento), con tabella comparativa e i gap/opportunita non
+  coperte. Ogni claim su un competitor deve essere verificato, mai inventato.
+
+launcher_ref:
+  codes: ["B4"]
+  relation: same
+
+kb_status: reused
+stage: core
+
+depends_on: ["B1"]                 # si parte dalle alternative competitive di B1
+feeds: []                          # a valle nel launcher stanno B7/JJ1 (non nodi KB)
+coherence_with: ["B1"]
+
+completeness:
+  absent_when: "Nessuna analisi: i competitor non sono stati mappati."
+  partial_when:
+    - "Sono elencati competitor ma senza analizzarne offerta/funnel/prezzo"
+    - "Manca la tabella comparativa o la sezione gap/opportunita"
+    - "Ci sono claim sui competitor non verificati (a naso)"
+  complete_when:
+    - "3-5 competitor principali presenti, inclusi gli alternativi diretti e indiretti di B1"
+    - "Per ogni competitor: offerta, funnel, hook, prezzo, posizionamento compilati"
+    - "Tabella comparativa presente"
+    - "Sezione gap/opportunita non coperte presente"
+    - "Ogni claim su un competitor ha una fonte/riscontro verificabile"
+
+elicitation:
+  - "Chi sono i 3-5 competitor che il tuo cliente valuta davvero prima di scegliere?"
+  - "Cosa vendono, a che prezzo e con quale promessa? (serve riscontro, non impressioni)"
+  - "Dove sono deboli tutti quanti: quale spazio nessuno sta coprendo?"
+
+execution:
+  executor_type: skill
+  producer: "launcher_skill:B4"
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "instance:B1.output"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Report competitor: schede 3-5 competitor + tabella comparativa + gap/opportunita"
+
+verification:
+  levels: [deterministic, coherence]
+  checks:
+    - level: deterministic
+      rule: "3-5 competitor con offerta, funnel, hook, prezzo e posizionamento compilati, piu tabella comparativa e sezione gap/opportunita"
+    - level: deterministic
+      rule: "Ogni claim su un competitor ha una fonte/riscontro verificabile (nessun dato inventato)"
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

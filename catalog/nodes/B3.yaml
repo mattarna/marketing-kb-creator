@@ -1,0 +1,66 @@
+# B3 · Sofisticazione mercato · NODO KB (riusato dal launcher)
+# Producer: launcher_skill:B3. Qui NON si riscrive la skill: si aggancia e si
+# porta la rubrica di completezza per l'assessment.
+
+code: "B3"
+name: "Sofisticazione mercato"
+section: "MKT"
+summary: >
+  Livello di awareness del target (scala Schwartz) e sofisticazione del mercato
+  (1-5), dichiarati CON le implicazioni operative sul messaggio ed esempi reali.
+  Decide se serve un meccanismo unico o basta il benefit diretto.
+
+launcher_ref:
+  codes: ["B3"]
+  relation: same
+
+kb_status: reused
+stage: core
+
+depends_on: ["B1"]                 # si analizza il mercato della categoria scelta in B1
+feeds: ["C3", "KB-NARRATIVE"]
+coherence_with: ["B1"]
+
+completeness:
+  absent_when: "Nessuna lettura del mercato: awareness e sofisticazione non valutate."
+  partial_when:
+    - "Awareness o sofisticazione dichiarati ma senza scala esplicita"
+    - "Verdetto presente ma senza implicazioni operative sul messaggio"
+    - "Implicazioni generiche, valide per qualsiasi livello"
+  complete_when:
+    - "Livello di awareness dichiarato su scala esplicita (Schwartz)"
+    - "Livello di sofisticazione dichiarato su scala esplicita (1-5)"
+    - "Sezione implicazioni operative sul messaggio presente e specifica del livello"
+    - "Almeno un esempio concreto dal mercato che sostiene il verdetto"
+    - "Decisione dichiarata: serve meccanismo unico o basta benefit diretto"
+
+elicitation:
+  - "Il tuo cliente sa gia di avere il problema e conosce le soluzioni, o parte da zero?"
+  - "Quante volte il mercato ha gia sentito promesse come la tua? Portami 2-3 esempi di competitor."
+  - "Le grandi promesse del settore stanno gonfiando (serve un meccanismo nuovo) o basta ancora il beneficio diretto?"
+
+execution:
+  executor_type: skill
+  producer: "launcher_skill:B3"
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "instance:B1.output"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Verdetto awareness + sofisticazione con implicazioni sul messaggio ed esempi dal mercato"
+
+verification:
+  levels: [deterministic, coherence]
+  checks:
+    - level: deterministic
+      rule: "Awareness e sofisticazione dichiarati su scale esplicite, con almeno un esempio dal mercato"
+    - level: deterministic
+      rule: "Sezione implicazioni operative sul messaggio presente e specifica del livello (non generica)"
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

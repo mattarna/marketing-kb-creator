@@ -1,0 +1,13 @@
+{
+  "name": "morfeus-marketing-kb-marketplace",
+  "owner": {
+    "name": "Matteo Arnaboldi - Morfeus"
+  },
+  "plugins": [
+    {
+      "name": "morfeus-marketing-kb",
+      "source": ".",
+      "description": "Costruttore di knowledge base di marketing completa e omnicomprensiva. Assessment della situazione, scoring di completezza, elicitazione mirata del mancante, integrazione. Produce lo strato strategico evergreen di un brand."
+    }
+  ]
+}

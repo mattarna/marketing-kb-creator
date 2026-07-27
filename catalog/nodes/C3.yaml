@@ -1,0 +1,71 @@
+# C3 · Architettura funnel completa · NODO KB (riusato dal launcher)
+# Producer: launcher_skill:C3. Qui NON si riscrive la skill: si aggancia e si
+# porta la rubrica di completezza per l'assessment.
+
+code: "C3"
+name: "Architettura funnel completa"
+section: "GTM"
+summary: >
+  Il pattern funnel scelto da regole, l'elenco completo delle pagine, la sequenza
+  dei touchpoint e la mappa del percorso da primo touch ad acquisto, coi flussi
+  condizionali. Nessuna pagina orfana: ogni pagina ha una sorgente di traffico.
+
+launcher_ref:
+  codes: ["C3"]
+  relation: same
+
+kb_status: reused
+stage: grows                       # nasce quando c'e un'offerta da portare a mercato; l'assessment
+                                   # non lo marca "mancante" per un business senza lancio attivo
+
+depends_on: ["B3", "C1", "KB-NUMBERS"]   # sofisticazione, offerta, e il modello (ex A4) per i volumi
+feeds: ["C6", "C7", "C8"]
+coherence_with: ["KB-NUMBERS", "C1"]
+
+completeness:
+  absent_when: "Nessuna architettura: le pagine e il percorso utente non sono mappati."
+  partial_when:
+    - "C'e un elenco di pagine ma senza pattern dichiarato o sequenza"
+    - "Alcune pagine sono orfane (nessuna sorgente di traffico che vi punta)"
+    - "Manca la mappa dei flussi condizionali (buyer vs non-buyer, show vs no-show)"
+  complete_when:
+    - "Pattern funnel dichiarato e conforme al tipo di lancio (webinar -> webinar funnel, VSL -> VSL funnel)"
+    - "Elenco completo delle pagine presente, nessuna pagina orfana"
+    - "Tabella pagina -> sorgente traffico -> azione -> next step presente"
+    - "Se prezzo sopra la soglia (~2k): application page e call presenti nel flusso"
+    - "Il flusso puo produrre i volumi del modello KB-NUMBERS"
+
+elicitation:
+  - "Che tipo di lancio e (webinar, VSL, application, lead magnet + nurture)?"
+  - "Quali pagine servono in sequenza e da dove arriva il traffico su ognuna?"
+  - "Come si biforca il percorso: chi compra, chi non compra, chi si presenta e chi no?"
+
+execution:
+  executor_type: skill
+  producer: "launcher_skill:C3"
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "instance:B3.output"
+      required: false
+    - ref: "instance:C1.output"
+      required: false
+    - ref: "instance:KB-NUMBERS.output"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Diagramma di flusso + tabella pagina -> sorgente traffico -> azione -> next step"
+
+verification:
+  levels: [deterministic, coherence]
+  checks:
+    - level: deterministic
+      rule: "Pattern dichiarato, elenco completo delle pagine e tabella pagina -> sorgente -> azione -> next step presenti"
+    - level: deterministic
+      rule: "Nessuna pagina orfana: ogni pagina ha una sorgente di traffico che vi punta"
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

@@ -1,0 +1,70 @@
+# C1 · Offer design completo · NODO KB (riusato dal launcher)
+# Producer: launcher_skill:C1. Qui NON si riscrive la skill: si aggancia e si
+# porta la rubrica di completezza per l'assessment.
+
+code: "C1"
+name: "Offer design completo"
+section: "OFR"
+summary: >
+  La singola offerta completa: prodotto, value stack con valore per item,
+  pricing con rationale, garanzia specifica, bonus mappati sulle obiezioni,
+  scarcity con meccanica reale, payment plan. E la fonte di verita del prezzo.
+
+launcher_ref:
+  codes: ["C1"]
+  relation: same
+
+kb_status: reused
+stage: core
+
+depends_on: ["B2", "B6", "KB-NUMBERS"]   # avatar+halo per i bonus, KB-NUMBERS (ex A4) per la tenuta del prezzo
+feeds: ["C3", "C7"]
+coherence_with: ["KB-NUMBERS", "KB-VALUE-LADDER", "KB-NARRATIVE"]
+
+completeness:
+  absent_when: "Nessuna offerta definita: prodotto, prezzo e garanzia non articolati."
+  partial_when:
+    - "C'e prezzo e prodotto ma senza value stack con valore per item"
+    - "Bonus e garanzia presenti ma generici (bonus riempitivo, garanzia vaga)"
+    - "Scarcity dichiarata senza una meccanica reale"
+  complete_when:
+    - "Prodotto core e value stack presenti, con valore assegnato e difendibile per ogni item"
+    - "Pricing con rationale presente, e regge nel modello KB-NUMBERS"
+    - "Garanzia specifica: cosa copre, per quanto, come si esercita"
+    - "Ogni bonus mappato su un'obiezione reale di B2/B6"
+    - "Scarcity/urgency con meccanica dichiarata (reale, non finta); payment plan se presente"
+
+elicitation:
+  - "Cosa include esattamente l'offerta e quanto vale ogni pezzo, difeso con un numero?"
+  - "Che prezzo, con quale garanzia (cosa copre, per quanto, come la esercita il cliente)?"
+  - "Quali bonus aggiungi e quale obiezione specifica smonta ognuno?"
+
+execution:
+  executor_type: skill
+  producer: "launcher_skill:C1"
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "instance:B2.output"
+      required: false
+    - ref: "instance:B6.output"
+      required: false
+    - ref: "instance:KB-NUMBERS.output"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Documento offerta completo + mappa bonus -> obiezione + prezzo definitivo per KB-NUMBERS"
+
+verification:
+  levels: [deterministic, coherence]
+  checks:
+    - level: deterministic
+      rule: "Prodotto core, value stack con valore per item, pricing con rationale, garanzia specifica e scarcity con meccanica reale tutti presenti"
+    - level: deterministic
+      rule: "Ogni bonus ha un'obiezione mappata esistente in B2 o B6 (mappa bonus -> obiezione compilata)"
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

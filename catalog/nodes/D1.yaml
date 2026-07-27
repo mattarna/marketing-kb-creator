@@ -1,0 +1,67 @@
+# D1 · Tono di voce · NODO KB (riusato dal launcher)
+# Producer: launcher_skill:D1. Qui NON si riscrive la skill: si aggancia e si
+# porta la rubrica di completezza per l'assessment.
+
+code: "D1"
+name: "Tono di voce"
+section: "FND"
+summary: >
+  Il registro verbale del brand: aggressivita, emotivita, personalita, parole da
+  usare e vietate, con almeno 3 sample concreti che fanno sentire il tono. E il
+  documento evergreen a cui ogni copy a valle dichiara coerenza.
+
+launcher_ref:
+  codes: ["D1"]
+  relation: same
+
+kb_status: reused
+stage: core
+
+depends_on: ["B2", "B5"]            # avatar e VOC: il tono si tara sulla lingua del cliente
+feeds: ["C8"]                       # la mappa email eredita i confini di tono
+coherence_with: ["KB-BRAND-CORE", "B5"]
+
+completeness:
+  absent_when: "Nessun documento di tono: registro e sample non definiti."
+  partial_when:
+    - "Registro/personalita dichiarati a soli aggettivi, senza sample concreti"
+    - "Ci sono sample ma mancano le liste parole (da usare / vietate)"
+    - "Il tono e definito sulla preferenza estetica del brand, non sulla lingua di B5"
+  complete_when:
+    - "Registro, aggressivita, emotivita e personalita verbale tutti dichiarati"
+    - "Almeno 3 sample concreti presenti: un paragrafo email, un hook, una CTA"
+    - "Lista parole da usare (10-15) e lista parole vietate (10-15) presenti"
+    - "I sample parlano la lingua di B5 (tracciabili alla VOC), non l'estetica del brand"
+
+elicitation:
+  - "Se il brand fosse una persona, come parlerebbe: quanto formale, quanto diretto, quanto caldo?"
+  - "Quali 10-15 parole vuoi sempre usare e quali 10-15 non devono mai comparire?"
+  - "Incollami 2-3 pezzi di testo che 'suonano voi' (o, al contrario, che vi fanno accapponare)."
+
+execution:
+  executor_type: skill
+  producer: "launcher_skill:D1"
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "instance:B2.output"
+      required: false
+    - ref: "instance:B5.output"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Documento tono: registro + aggressivita + emotivita + personalita, liste parole, 3-5 sample"
+
+verification:
+  levels: [deterministic, coherence]
+  checks:
+    - level: deterministic
+      rule: "Registro, aggressivita, emotivita e personalita verbale dichiarati, con almeno 3 sample concreti (paragrafo email, hook, CTA)"
+    - level: deterministic
+      rule: "Lista parole da usare e lista parole vietate entrambe presenti"
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

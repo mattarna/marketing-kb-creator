@@ -1,0 +1,95 @@
+# KB-BRAND-CORE · Nucleo brand · NODO KB
+# Il documento identitario del brand: perche esiste, in cosa crede, contro chi.
+# Sta a monte della narrativa (KB-NARRATIVE): l'idea madre e il messaggio si
+# poggiano su questo. NON e la parte visiva (quella e D2/D3), e il perche.
+
+code: "KB-BRAND-CORE"
+name: "Nucleo brand"
+section: "FND"
+summary: >
+  Mission, vision, valori operativi, storia del founder/origine, il nemico
+  (contro cosa combatte il brand), il punto di vista/manifesto. E il perche
+  esiste il brand, da cui discendono coerentemente idea, messaggio e tono.
+
+launcher_ref:
+  codes: ["D3"]
+  relation: partial     # D3 (brand identity brief) tocca parte dell'identita ma pende sul visivo;
+                        # qui e il nucleo di senso, evergreen, a monte del visivo.
+
+kb_status: reused       # ~80% gia coperto da skill esistenti (ricognizione 2026-07-27):
+                        # marketing br3 (nemico, POV, manifesto, storia founder) + br2 + br4 + a1.
+                        # Non si scrive una skill nuova: si compone + si aggiunge il delta.
+stage: core
+
+depends_on: []          # foundational: puo partire dalle dichiarazioni del founder
+feeds: ["KB-NARRATIVE", "D1", "D3", "KB-CHANNELS", "KB-PROOF-BANK"]
+coherence_with: ["B1", "KB-NARRATIVE"]
+
+completeness:
+  absent_when: "Nessun documento identitario: mission/vision/valori/nemico non articolati."
+  partial_when:
+    - "Esistono mission e/o valori ma generici (frasi da poster, non decisioni)"
+    - "Manca il nemico o il punto di vista (cosa il brand rifiuta)"
+    - "Manca la storia d'origine / il perche personale del founder"
+  complete_when:
+    - "Mission: cosa cambia nel mondo il brand, in una frase verificabile (non slogan)"
+    - "Vision: dove porta il mercato/il cliente se il brand vince"
+    - "3-5 valori OPERATIVI, ciascuno con 'cosa vuol dire in una decisione reale' (non aggettivi)"
+    - "Storia d'origine: il momento/tensione da cui nasce il brand"
+    - "Il nemico nominato: la credenza/status quo/categoria contro cui il brand si schiera"
+    - "Punto di vista / manifesto: la tesi non ovvia che il brand difende"
+
+elicitation:
+  - "Perche esiste questo brand, oltre a fare soldi? Cosa cambia se vince?"
+  - "Qual e il momento o la frustrazione da cui e nato? La storia vera."
+  - "Contro cosa vi schierate? Quale credenza diffusa del mercato ritenete sbagliata?"
+  - "3-5 valori: per ognuno, una decisione concreta in cui quel valore vi ha fatto scegliere diversamente."
+  - "Se doveste scrivere una frase che vi mette contro meta del mercato, quale sarebbe?"
+
+tasks:
+  - "Raccogliere le dichiarazioni del founder (esistenti o via elicitazione)"
+  - "Distillare mission e vision in frasi verificabili, non slogan"
+  - "Tradurre ogni valore in 'cosa vuol dire quando devi decidere'"
+  - "Nominare il nemico e formulare il punto di vista/manifesto"
+  - "Scrivere la storia d'origine in forma breve e riusabile"
+  - "Comporre il documento Nucleo brand + verificare coerenza col posizionamento B1"
+
+execution:
+  executor_type: compose      # orchestra producer esistenti + delta, nessuna skill nuova
+  producer: "marketing_skill:br3"   # manifesto: nemico, POV, storia founder (il grosso)
+  delta:
+    - "vision (dove porta il mercato/cliente se il brand vince)"
+    - "valori operativi (ognuno con 'cosa vuol dire in una decisione reale')"
+  inputs:
+    - ref: "marketing_skill:br3"    # nemico, POV, manifesto, storia founder
+    - ref: "marketing_skill:br2"    # brand identity brief (personalita)
+      required: false
+    - ref: "marketing_skill:br4"    # brand voice guide
+      required: false
+    - ref: "marketing_skill:a1"     # categoria/promessa (posizionamento)
+      required: false
+    - ref: "existing_material"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Documento Nucleo brand: mission, vision, valori operativi, storia, nemico, manifesto"
+
+verification:
+  levels: [deterministic, coherence, llm_quality, human]
+  checks:
+    - level: deterministic
+      rule: "Mission, vision, 3-5 valori, storia d'origine, nemico e manifesto tutti presenti"
+    - level: deterministic
+      rule: "Ogni valore ha la riga 'cosa vuol dire in una decisione reale'"
+    - level: coherence
+      rule: "Il nemico e il manifesto sono coerenti col de-posizionamento di B1"
+      against: "B1"
+  # llm_quality: trigger · valori-poster (aggettivi senza decisione), mission-slogan,
+  #   nemico generico ('la mediocrita'), manifesto ovvio che nessuno contesterebbe.
+  # human: e l'atto identitario radice; lo firma il founder.
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

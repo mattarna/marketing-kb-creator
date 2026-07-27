@@ -1,0 +1,67 @@
+# D3 · Brand identity brief · NODO KB (riusato dal launcher)
+# Producer: launcher_skill:D3. Qui NON si riscrive la skill: si aggancia e si
+# porta la rubrica di completezza per l'assessment.
+
+code: "D3"
+name: "Brand identity brief"
+section: "FND"
+summary: >
+  Il brief visivo formale che alimenta il design system: direzione creativa,
+  mood e riferimenti, colori e font di direzione, linee guida per immagini e
+  layout. Deriva da posizionamento e avatar, non da soli aggettivi.
+
+launcher_ref:
+  codes: ["D3"]
+  relation: same
+
+kb_status: reused
+stage: core
+
+depends_on: ["B1", "B2"]           # la direzione visiva parte da chi si vende e come ci si posiziona
+feeds: ["D2"]                      # il brief alimenta il sistema visivo
+coherence_with: ["KB-BRAND-CORE", "B1"]
+
+completeness:
+  absent_when: "Nessuna direzione visiva articolata: al piu preferenze sparse di gusto."
+  partial_when:
+    - "Ci sono colori/font di preferenza ma senza mood e riferimenti visivi"
+    - "Il brief e fatto di soli aggettivi, senza direzione operativa"
+    - "Manca il legame esplicito tra direzione creativa e avatar/posizionamento"
+  complete_when:
+    - "Direzione creativa, mood e riferimenti visivi presenti"
+    - "Colori e font di direzione indicati (preferenze e vincoli)"
+    - "Linee guida per immagini (foto, illustrazioni, AI-generated) e per layout pagine presenti"
+    - "Motivazione esplicita del legame direzione creativa -> avatar B2 e -> posizionamento B1"
+
+elicitation:
+  - "Che sensazione deve dare il brand a colpo d'occhio (3-4 aggettivi) e perche proprio quella per il tuo cliente?"
+  - "Ci sono brand o immagini di riferimento che vuoi come Nord (o come anti-esempio)?"
+  - "Che stile di immagini usate (foto reali, illustrazioni, AI) e con quali vincoli?"
+
+execution:
+  executor_type: skill
+  producer: "launcher_skill:D3"
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "instance:B1.output"
+      required: false
+    - ref: "instance:B2.output"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Brief visivo: colori, font, mood, riferimenti, direzione creativa + linee guida immagini e layout"
+
+verification:
+  levels: [deterministic, coherence]
+  checks:
+    - level: deterministic
+      rule: "Colori, font, mood, riferimenti visivi e direzione creativa tutti presenti"
+    - level: deterministic
+      rule: "Motivazione esplicita del legame direzione creativa -> avatar B2 e -> posizionamento B1 presente"
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

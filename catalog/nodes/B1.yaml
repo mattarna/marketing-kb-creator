@@ -1,0 +1,64 @@
+# B1 · ICP e posizionamento · NODO KB (riusato dal launcher)
+# Producer: launcher_skill:B1. Qui NON si riscrive la skill: si aggancia e si
+# porta la rubrica di completezza per l'assessment.
+
+code: "B1"
+name: "ICP e posizionamento"
+section: "MKT"
+summary: >
+  Categoria, promessa core, differenziazione e de-posizionamento competitor,
+  validati col framework Dunford, piu l'ICP definito come cliente a massimo LTV
+  (compra, e soddisfatto, ricompra, ne parla). E la radice strategica della KB.
+
+launcher_ref:
+  codes: ["B1"]
+  relation: same
+
+kb_status: reused
+stage: core
+
+depends_on: []                     # a monte nel launcher stanno A1/A4 (non nodi KB): parte dalle dichiarazioni
+feeds: ["B2", "B3", "B4", "D3", "KB-NARRATIVE", "KB-VALUE-LADDER"]
+coherence_with: ["KB-BRAND-CORE", "KB-NUMBERS"]
+
+completeness:
+  absent_when: "Nessun posizionamento: categoria, promessa e ICP non articolati."
+  partial_when:
+    - "C'e una promessa ma non falsificabile, o senza differenziatore chiaro"
+    - "Manca il de-posizionamento (cosa NON siamo) o la tabella Dunford"
+    - "L'ICP e 'il piu facile da convertire', non il cliente a massimo LTV"
+  complete_when:
+    - "Categoria competitiva e alternative (dirette e indirette) presenti"
+    - "Promessa core e differenziatore presenti; de-posizionamento competitor esplicito"
+    - "Tabella Dunford compilata in tutti e 5 i passaggi (alternative -> attributi unici -> valore -> target -> categoria)"
+    - "ICP definito con i 4 criteri LTV (compra, e soddisfatto, ricompra, ne parla)"
+    - "3 frasi VOC di conferma presenti"
+
+elicitation:
+  - "In che categoria compete il prodotto e contro quali alternative (anche il 'non fare nulla')?"
+  - "Chi e il cliente che compra, e soddisfatto, ricompra e ne parla? Non il piu facile: il piu redditizio."
+  - "Perche uno dovrebbe scegliere voi invece delle alternative, e cosa esplicitamente NON siete?"
+
+execution:
+  executor_type: skill
+  producer: "launcher_skill:B1"
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Documento posizionamento con tabella Dunford compilata + ICP a massimo LTV + 3 frasi VOC di conferma"
+
+verification:
+  levels: [deterministic, coherence]
+  checks:
+    - level: deterministic
+      rule: "Categoria, alternative, promessa core, differenziatore e de-posizionamento tutti presenti, con tabella Dunford completa nei 5 passaggi"
+    - level: deterministic
+      rule: "ICP definito con i 4 criteri LTV (compra, e soddisfatto, ricompra, ne parla) + 3 frasi VOC di conferma"
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

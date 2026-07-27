@@ -1,0 +1,125 @@
+# =============================================================================
+# SCHEMA del Nodo KB · catalog/nodes/<CODE>.yaml
+# Versione schema: 1.0.0 · morfeus-marketing-kb
+#
+# Un NODO e un documento della knowledge base di marketing (uno dei mattoni della
+# "casa" della KB). Il registro contiene DEFINIZIONI (cosa dev'essere un nodo e
+# quando e completo). Lo STATO di una KB reale (contenuto, evidence, versioni)
+# vive nel workspace dell'utente (.morfeus-kb/): mai qui.
+#
+# Compatibilita col launcher: i nodi strategici riusano i codici del launcher
+# (B/C/D) e ogni nodo dichiara `launcher_ref`. Lo schema del launcher e il
+# riferimento; qui si aggiungono i campi KB-specifici (completeness, elicitation).
+# =============================================================================
+
+schema_version: "1.0.0"
+
+fields:
+
+  # --- IDENTITA (obbligatori) ---
+  code:
+    type: string            # nodi riusati: codice launcher (es. "B1"). Nodi nuovi: "KB-*".
+  name:
+    type: string
+  section:
+    type: string            # FND | MKT | STR | OFR | GTM | AST (sezioni della casa KB)
+  summary:
+    type: string            # 1-3 righe: cos'e il documento e a cosa serve nella KB
+
+  # --- PONTE COL LAUNCHER (obbligatorio) ---
+  launcher_ref:
+    codes: [string]         # codici launcher mappati (es. ["C1"]). [] se nodo puro-KB senza equivalente.
+    relation: same | generalizes | partial | none
+                            # same        = 1:1 (stesso documento, ri-radicato evergreen)
+                            # generalizes = il nodo KB ingloba/estende il codice launcher (es. value ladder ⊇ C1)
+                            # partial     = il nodo KB copre solo una parte del codice, o viceversa
+                            # none        = nodo nato nella KB, nessun equivalente launcher
+
+  # --- STATO NEL BUILD (obbligatorio) ---
+  kb_status:
+    type: string            # reused | new
+                            # reused = la skill esiste nel launcher, qui si aggancia/ri-inquadra
+                            # new    = documento nuovo, skill da scrivere in questo plugin
+
+  # --- STADIO (opzionale; default: core) ---
+  stage:
+    type: string            # core | grows
+                            # core  = nodo che ogni business serve, sempre valutato
+                            # grows = nodo che ha senso solo a certi stadi (es. value-ladder,
+                            #         lifecycle per chi ha un solo prodotto). L'assessment lo
+                            #         marca "non serve ancora", NON "mancante/rosso". Niente
+                            #         caselle-fuffa riempite per completismo.
+
+  # --- SEZIONI INTERNE (opzionale) ---
+  # Solo per nodi che sono UN documento a piu parti nominate (es. la Narrativa
+  # strategica tiene Big Idea + Meccanismo + Angoli + Message House in un solo doc,
+  # ognuna citata e distinta, non 4 file sparsi). Ogni sezione puo avere un
+  # producer diverso (anche una skill del launcher).
+  sections:
+    - id: string            # es. "big-idea"
+      name: string          # es. "Big Idea di categoria"
+      producer: string      # opzionale: ref della skill che la produce (es. "launcher_skill:B7")
+
+  # --- GRAFO INTERNO ALLA KB (obbligatori; liste di codici KB) ---
+  depends_on: [string]      # a monte: nodi senza cui non si costruisce questo
+  feeds: [string]           # a valle: nodi che consumano questo
+  coherence_with: [string]  # nodi con cui deve restare coerente (stessa promessa/chi/prezzo)
+
+  # --- RUBRICA DI COMPLETEZZA (obbligatorio; e il cuore dell'assessment) ---
+  # Guida lo scoring dello step 3: assente / parziale / completo.
+  completeness:
+    absent_when: string     # quando il nodo si considera ASSENTE (di norma: nessuna evidenza)
+    partial_when: [string]  # criteri minimi che, se presenti, portano a PARZIALE
+    complete_when: [string] # criteri pieni (il DoD "KB perfetta"): tutti soddisfatti = COMPLETO
+    # Scoring: 0 criteri complete_when = assente/parziale (per partial_when);
+    #          tutti = completo; alcuni = parziale.
+
+  # --- ELICITAZIONE (obbligatorio; guida lo step 5) ---
+  # Le domande da fare SOLO se il nodo e assente o parziale. Mirate a colmare i buchi.
+  elicitation:
+    - string                # una domanda/richiesta atomica per estrarre il mancante
+
+  # --- RICETTA DI PRODUZIONE (obbligatorio; guida lo step 6) ---
+  tasks:
+    - string                # azioni ordinate per produrre/completare il documento
+
+  # --- CONTRATTO DI ESECUZIONE (obbligatorio) ---
+  execution:
+    executor_type: skill | subagent | human | hybrid | compose
+                            # compose = il nodo non ha una skill propria: orchestra piu
+                            # producer esistenti + un piccolo delta (vedi `producer` e `delta`).
+    producer: string        # opzionale: chi produce il documento, se e UNA skill esistente.
+                            #   "launcher_skill:<CODE>"   skill del launcher (es. launcher_skill:B7)
+                            #   "marketing_skill:<id>"    skill del plugin marketing (es. marketing_skill:a2)
+                            #   "skill:<name>"            skill nativa di QUESTO plugin (solo i gap veri)
+                            # Per nodi multi-producer usare invece `sections[].producer` o `compose`.
+    delta: [string]         # opzionale (nodi compose/reused): cosa questo plugin AGGIUNGE oltre a
+                            # cio che il producer esistente gia da (es. "vision", "valori operativi").
+                            # Vuoto = il producer copre tutto, il nodo e puro aggancio.
+    inputs:                 # SOLO riferimenti, mai contenuto inline
+      - ref: string         # vocabolario dei ref:
+                            #   "kb:<CODE>.output[.campo]"   output di un nodo KB a monte
+                            #   "existing_material"          materiale che l'utente ha gia (import step 1)
+                            #   "human_input"                cio che l'utente dichiara in elicitazione
+                            #   "launcher_skill:<CODE>"      riuso della skill del launcher
+                            #   "marketing_skill:<id>"       riuso della skill del plugin marketing
+                            #   "fixed_rule:<name>"          costante/regola di metodo
+        required: bool      # default true. false = arricchimento, non blocca la readiness.
+    output:
+      format: markdown | yaml | html
+      description: string
+
+  # --- VERIFICA (obbligatorio) ---
+  verification:
+    levels: [deterministic, coherence, llm_quality, human]
+    checks:
+      - level: deterministic | coherence
+        rule: string        # una regola atomica e verificabile
+        against: string     # opzionale, solo coherence: codice del nodo di confronto
+    # llm_quality e human restano prompting/giudizio (commenti nella definition).
+
+  # --- VERSIONING (obbligatorio) ---
+  versioning:
+    version: integer
+    status: draft | stable
+    changed: date           # ISO

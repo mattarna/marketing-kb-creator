@@ -1,0 +1,85 @@
+# KB-LIFECYCLE · Customer lifecycle map · NODO KB
+# L'intero ciclo di vita del cliente, non il singolo funnel (quello e C3).
+# Da sconosciuto ad advocate: le fasi, cosa serve in ognuna, dove si rompe.
+
+code: "KB-LIFECYCLE"
+name: "Customer lifecycle map"
+section: "GTM"
+summary: >
+  La mappa del cliente attraverso tutte le fasi: awareness, consideration,
+  conversion, onboarding, retention, advocacy. Per ogni fase: obiettivo,
+  contenuto/touchpoint, metrica, e il punto dove oggi si perde gente. E la
+  cornice evergreen dentro cui i singoli funnel (C3) sono viste locali.
+
+launcher_ref:
+  codes: ["C3"]
+  relation: generalizes  # C3 = un funnel; qui = tutto il ciclo di vita, di cui il funnel e un tratto.
+
+kb_status: new
+stage: grows            # con un solo prodotto/nessuna base clienti la mappa e minima;
+                        # l'assessment la scala sullo stadio del business.
+
+depends_on: ["B2", "KB-VALUE-LADDER", "KB-CHANNELS"]
+feeds: []
+coherence_with: ["KB-VALUE-LADDER", "KB-CHANNELS"]
+
+completeness:
+  absent_when: "Nessuna vista del ciclo: si pensa solo all'acquisizione, il resto e cieco."
+  partial_when:
+    - "Coperte solo le fasi di acquisizione (awareness→conversion), il post-vendita e vuoto"
+    - "Le fasi ci sono ma senza metrica ne touchpoint per fase"
+    - "Non e identificato dove si perde piu gente (il collo di bottiglia)"
+  complete_when:
+    - "Sei fasi coperte: awareness, consideration, conversion, onboarding, retention, advocacy"
+    - "Per ogni fase: obiettivo + touchpoint/contenuto + metrica"
+    - "Il collo di bottiglia attuale identificato (dove si perde piu valore)"
+    - "Aggancio ai gradini della value ladder (quale offerta in quale fase)"
+    - "I momenti di advocacy/referral nominati (come un cliente diventa promotore)"
+
+elicitation:
+  - "Segui un cliente dall'esser sconosciuto fino a portarti altri clienti: quali fasi attraversa?"
+  - "In ogni fase, cosa deve succedere e come lo misuri?"
+  - "Dove perdi piu gente oggi? In quale passaggio si raffredda?"
+  - "Cosa fa un cliente felice per portartene altri? E' progettato o capita?"
+
+tasks:
+  - "Definire le fasi del ciclo per questo business (adattare le 6 canoniche)"
+  - "Per ogni fase: obiettivo, touchpoint/contenuto, metrica"
+  - "Agganciare i gradini della value ladder alle fasi"
+  - "Identificare il collo di bottiglia attuale"
+  - "Progettare i momenti di advocacy/referral"
+  - "Comporre la lifecycle map"
+
+execution:
+  executor_type: skill
+  producer: "skill:kb-lifecycle"     # gap vero: skill nativa di questo plugin
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "human_input"
+    - ref: "kb:B2.output"
+    - ref: "kb:KB-VALUE-LADDER.output"
+      required: false
+    - ref: "kb:KB-CHANNELS.output"
+  output:
+    format: markdown
+    description: "Lifecycle map: 6 fasi con obiettivo/touchpoint/metrica, collo di bottiglia, advocacy"
+
+verification:
+  levels: [deterministic, coherence, llm_quality, human]
+  checks:
+    - level: deterministic
+      rule: "Tutte le fasi del ciclo coperte, ognuna con obiettivo, touchpoint e metrica"
+    - level: deterministic
+      rule: "Collo di bottiglia attuale nominato"
+    - level: coherence
+      rule: "Le offerte assegnate alle fasi esistono nella value ladder"
+      against: "KB-VALUE-LADDER"
+  # llm_quality: trigger · solo acquisizione mappata, fasi senza metrica, advocacy assente,
+  #   collo di bottiglia generico ('convertiamo poco') non localizzato.
+  # human: vista strategica del cliente; la firma chi possiede il marketing.
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27

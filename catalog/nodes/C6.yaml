@@ -1,0 +1,67 @@
+# C6 · Logica di segmentazione email · NODO KB (riusato dal launcher)
+# Producer: launcher_skill:C6. Qui NON si riscrive la skill: si aggancia e si
+# porta la rubrica di completezza per l'assessment.
+
+code: "C6"
+name: "Logica di segmentazione email"
+section: "GTM"
+summary: >
+  Le regole condizionali per ogni evento osservabile: buyer soppresso subito da
+  ogni sales email, partecipante vs no-show su flussi diversi, clicker senza
+  acquisto su flusso dedicato, con regole di priorita per gli incroci e tempistiche.
+
+launcher_ref:
+  codes: ["C6"]
+  relation: same
+
+kb_status: reused
+stage: grows                       # ha senso quando esiste un funnel con eventi (C3); l'assessment
+                                   # non lo marca "mancante" per chi non ha ancora automazioni email
+
+depends_on: ["C3"]                 # gli eventi usati devono esistere nel funnel
+feeds: ["C8", "KB-LIFECYCLE"]
+coherence_with: ["C3"]
+
+completeness:
+  absent_when: "Nessuna segmentazione: le email vanno a tutta la lista senza regole condizionali."
+  partial_when:
+    - "Ci sono alcune regole ma non la soppressione immediata del buyer"
+    - "Mancano le regole di priorita per i lead in piu condizioni contemporaneamente"
+    - "Mancano le tempistiche di ingresso/uscita dai flussi o la simulazione dei percorsi"
+  complete_when:
+    - "Regola presente per ognuno dei 5 eventi: acquisto, iscrizione, registrazione webinar, show/no-show, click sales page senza acquisto"
+    - "Soppressione buyer immediata da ogni sales email, con tempistica dichiarata"
+    - "Regole di priorita per gli incroci presenti"
+    - "Tempistiche di ingresso e uscita da ogni flusso presenti"
+    - "Simulazione scritta dei 5 percorsi tipo (buyer, no-show, partecipante non-buyer, clicker non-buyer, dormiente), senza mai un buyer che riceve una sales email"
+
+elicitation:
+  - "Cosa deve succedere all'istante in cui uno compra: da quali email esce subito?"
+  - "Come tratti in modo diverso chi si e presentato al webinar, chi no, e chi ha cliccato ma non ha comprato?"
+  - "Se un contatto finisce in due flussi insieme, quale ha la precedenza?"
+
+execution:
+  executor_type: skill
+  producer: "launcher_skill:C6"
+  inputs:
+    - ref: "existing_material"
+      required: false
+    - ref: "instance:C3.output"
+      required: false
+    - ref: "human_input"
+  output:
+    format: markdown
+    description: "Tabella evento -> azione + diagramma se/allora + simulazione scritta dei 5 percorsi tipo"
+
+verification:
+  levels: [deterministic, coherence]
+  checks:
+    - level: deterministic
+      rule: "Regola presente per i 5 eventi, soppressione buyer immediata con tempistica, regole di priorita e tempistiche di ingresso/uscita tutte presenti"
+    - level: deterministic
+      rule: "Simulazione dei 5 percorsi tipo presente, senza alcun percorso in cui un buyer riceve una sales email"
+
+versioning:
+  version: 1
+  status: draft
+  changed: 2026-07-27
