@@ -48,6 +48,14 @@ KB (questo plugin, la base)  ──alimenta──▶  LANCIO (launcher, il verti
    house), offerta (portfolio + value ladder), go-to-market (canali/content,
    lifecycle, pattern funnel), asset (proof bank, numeri).
 
+## Autonomo (self-contained)
+
+Il plugin **produce ogni nodo da solo**: 25 skill native (motore + 24 producer),
+zero dipendenze runtime da altri plugin. I metodi vengono dal launcher e dal plugin
+marketing, ma sono stati **adattati e portati dentro** come documenti KB evergreen.
+Installi solo `marketing-kb-creator` e funziona tutto. Il launcher e la cava del
+metodo, non un requisito.
+
 ## Struttura (target)
 
 ```

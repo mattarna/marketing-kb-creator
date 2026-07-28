@@ -69,3 +69,8 @@ dell'utente (lo stato della KB del brand): NON fa parte del repo, e in `.gitigno
 - **K3**: Schema catalogo strato strategico condiviso col launcher (ponte di convergenza).
 - **K4**: Due pezzi = motore di assessment (spina) + casa della KB (nodi target).
 - **K5**: Stato della KB persistente/versionato in `.morfeus-kb/` (fuori dal repo).
+- **K6** (2026-07-27): Plugin **SELF-CONTAINED**, vendibile da solo. Tutti i producer
+  sono skill NATIVE (`skill:kb-*`), adattate dai metodi di launcher e marketing come
+  documenti KB evergreen. Nessuna dipendenza runtime da altri plugin. Il launcher resta
+  la FONTE del metodo (letto in adattamento), non un requisito d'installazione. `launcher`
+  e `marketing` sono la cava, non la dipendenza.
