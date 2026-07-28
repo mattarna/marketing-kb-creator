@@ -1,5 +1,5 @@
 # C6 · Logica di segmentazione email · NODO KB (riusato dal launcher)
-# Producer: launcher_skill:C6. Qui NON si riscrive la skill: si aggancia e si
+# Producer: skill:kb-c6. Qui NON si riscrive la skill: si aggancia e si
 # porta la rubrica di completezza per l'assessment.
 
 code: "C6"
@@ -42,7 +42,7 @@ elicitation:
 
 execution:
   executor_type: skill
-  producer: "launcher_skill:C6"
+  producer: "skill:kb-c6"
   inputs:
     - ref: "existing_material"
       required: false

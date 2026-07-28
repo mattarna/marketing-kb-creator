@@ -21,22 +21,21 @@ launcher_ref:
 kb_status: new
 stage: core
 
-# Ricognizione 2026-07-27: 3 sezioni su 4 sono RIUSO (big-idea, meccanismo, angoli gia
-# coperti). L'unico producer nuovo da scrivere e la MESSAGE HOUSE.
+# Self-contained: ogni sezione ha una skill nativa del plugin (metodo adattato da
+# p6/B7/B8 come documenti KB evergreen). La message-house era gia nativa.
 sections:
   - id: "big-idea"
     name: "Big Idea di categoria"
-    producer: "marketing_skill:p6"       # riuso: unique-mechanism/big-idea gia coperto (p6 + launcher B7)
+    producer: "skill:kb-big-idea"        # metodo p6 (unique-mechanism/big-idea), dentro il plugin
   - id: "meccanismo-unico"
     name: "Meccanismo Unico"
-    producer: "launcher_skill:B7"        # riuso: perche funziona dove altri falliscono
+    producer: "skill:kb-meccanismo-unico"  # metodo B7 (perche funziona), dentro il plugin
   - id: "angoli"
     name: "Angoli di attacco"
-    producer: "launcher_skill:B8"        # riuso: le porte d'ingresso tattiche sullo stesso core
+    producer: "skill:kb-angoli"          # metodo B8 (porte d'ingresso), dentro il plugin
   - id: "message-house"
     name: "Message House"
-    producer: "skill:kb-message-house"   # NUOVO (unico gap vero della narrativa):
-                                         # core message + 3-5 pilastri + proof point per pilastro
+    producer: "skill:kb-message-house"   # core message + 3-5 pilastri + proof point per pilastro
 
 depends_on: ["KB-BRAND-CORE", "B1", "B2", "B3"]
 feeds: ["KB-CHANNELS", "C1", "KB-PROOF-BANK"]

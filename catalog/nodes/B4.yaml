@@ -1,5 +1,5 @@
 # B4 · Analisi competitor · NODO KB (riusato dal launcher)
-# Producer: launcher_skill:B4. Qui NON si riscrive la skill: si aggancia e si
+# Producer: skill:kb-b4. Qui NON si riscrive la skill: si aggancia e si
 # porta la rubrica di completezza per l'assessment.
 
 code: "B4"
@@ -41,7 +41,7 @@ elicitation:
 
 execution:
   executor_type: skill
-  producer: "launcher_skill:B4"
+  producer: "skill:kb-b4"
   inputs:
     - ref: "existing_material"
       required: false

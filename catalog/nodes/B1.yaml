@@ -1,5 +1,5 @@
 # B1 · ICP e posizionamento · NODO KB (riusato dal launcher)
-# Producer: launcher_skill:B1. Qui NON si riscrive la skill: si aggancia e si
+# Producer: skill:kb-b1. Qui NON si riscrive la skill: si aggancia e si
 # porta la rubrica di completezza per l'assessment.
 
 code: "B1"
@@ -41,7 +41,7 @@ elicitation:
 
 execution:
   executor_type: skill
-  producer: "launcher_skill:B1"
+  producer: "skill:kb-b1"
   inputs:
     - ref: "existing_material"
       required: false

@@ -1,5 +1,5 @@
 # B2 · Avatar del cliente ideale · NODO KB (riusato dal launcher)
-# Producer: launcher_skill:B2. Qui NON si riscrive la skill: si aggancia e si
+# Producer: skill:kb-b2. Qui NON si riscrive la skill: si aggancia e si
 # porta la rubrica di completezza per l'assessment.
 
 code: "B2"
@@ -40,7 +40,7 @@ elicitation:
 
 execution:
   executor_type: skill
-  producer: "launcher_skill:B2"
+  producer: "skill:kb-b2"
   inputs:
     - ref: "existing_material"
       required: false

@@ -1,5 +1,5 @@
 # B6 · Halo Strategy · NODO KB (riusato dal launcher)
-# Producer: launcher_skill:B6. Qui NON si riscrive la skill: si aggancia e si
+# Producer: skill:kb-b6. Qui NON si riscrive la skill: si aggancia e si
 # porta la rubrica di completezza per l'assessment.
 
 code: "B6"
@@ -41,7 +41,7 @@ elicitation:
 
 execution:
   executor_type: skill
-  producer: "launcher_skill:B6"
+  producer: "skill:kb-b6"
   inputs:
     - ref: "existing_material"
       required: false

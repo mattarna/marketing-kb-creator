@@ -55,8 +55,8 @@ tasks:
   - "Comporre il documento Nucleo brand + verificare coerenza col posizionamento B1"
 
 execution:
-  executor_type: compose      # orchestra producer esistenti + delta, nessuna skill nuova
-  producer: "marketing_skill:br3"   # manifesto: nemico, POV, storia founder (il grosso)
+  executor_type: skill        # self-contained: skill nativa che interna il metodo + delta
+  producer: "skill:kb-brand-core"   # metodo br3 (nemico/POV/storia) + delta vision/valori, dentro il plugin
   delta:
     - "vision (dove porta il mercato/cliente se il brand vince)"
     - "valori operativi (ognuno con 'cosa vuol dire in una decisione reale')"

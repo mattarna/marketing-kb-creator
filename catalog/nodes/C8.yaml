@@ -1,5 +1,5 @@
 # C8 · Email architecture map · NODO KB (riusato dal launcher)
-# Producer: launcher_skill:C8. Qui NON si riscrive la skill: si aggancia e si
+# Producer: skill:kb-c8. Qui NON si riscrive la skill: si aggancia e si
 # porta la rubrica di completezza per l'assessment.
 
 code: "C8"
@@ -42,7 +42,7 @@ elicitation:
 
 execution:
   executor_type: skill
-  producer: "launcher_skill:C8"
+  producer: "skill:kb-c8"
   inputs:
     - ref: "existing_material"
       required: false

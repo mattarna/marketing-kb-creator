@@ -53,8 +53,8 @@ tasks:
   - "Comporre il proof bank indicizzato"
 
 execution:
-  executor_type: compose
-  producer: "marketing_skill:r3"    # sistema di raccolta testimonial/case
+  executor_type: skill        # self-contained
+  producer: "skill:kb-proof-bank"   # r3 (raccolta) + J4 (inventario) + archivio persistente, dentro il plugin
   delta:
     - "archivio persistente e indicizzato che vive TRA i lanci (r3/J4 sono one-shot per lancio)"
     - "tagging per claim/pilastro e per fase del ciclo, + meccanismo di aggiornamento"

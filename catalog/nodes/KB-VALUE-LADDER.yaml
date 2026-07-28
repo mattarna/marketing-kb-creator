@@ -53,8 +53,8 @@ tasks:
   - "Comporre la mappa value ladder"
 
 execution:
-  executor_type: compose
-  producer: "marketing_skill:a2"    # FASE 5: value ladder + upgrade path + prezzi
+  executor_type: skill        # self-contained
+  producer: "skill:kb-value-ladder"  # metodo a2 (value ladder + pricing) estratto evergreen, dentro il plugin
   delta:
     - "estrazione come documento evergreen standalone (a2 lo produce dentro l'offer design)"
   inputs:

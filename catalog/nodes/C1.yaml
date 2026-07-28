@@ -1,5 +1,5 @@
 # C1 · Offer design completo · NODO KB (riusato dal launcher)
-# Producer: launcher_skill:C1. Qui NON si riscrive la skill: si aggancia e si
+# Producer: skill:kb-c1. Qui NON si riscrive la skill: si aggancia e si
 # porta la rubrica di completezza per l'assessment.
 
 code: "C1"
@@ -41,7 +41,7 @@ elicitation:
 
 execution:
   executor_type: skill
-  producer: "launcher_skill:C1"
+  producer: "skill:kb-c1"
   inputs:
     - ref: "existing_material"
       required: false

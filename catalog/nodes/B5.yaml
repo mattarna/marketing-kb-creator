@@ -1,5 +1,5 @@
 # B5 · Voice of customer · NODO KB (riusato dal launcher)
-# Producer: launcher_skill:B5. Qui NON si riscrive la skill: si aggancia e si
+# Producer: skill:kb-b5. Qui NON si riscrive la skill: si aggancia e si
 # porta la rubrica di completezza per l'assessment.
 
 code: "B5"
@@ -40,7 +40,7 @@ elicitation:
 
 execution:
   executor_type: skill
-  producer: "launcher_skill:B5"
+  producer: "skill:kb-b5"
   inputs:
     - ref: "existing_material"
       required: false

@@ -1,5 +1,5 @@
 # D2 · Design system · NODO KB (riusato dal launcher)
-# Producer: launcher_skill:D2. Qui NON si riscrive la skill: si aggancia e si
+# Producer: skill:kb-d2. Qui NON si riscrive la skill: si aggancia e si
 # porta la rubrica di completezza per l'assessment.
 
 code: "D2"
@@ -43,7 +43,7 @@ elicitation:
 
 execution:
   executor_type: skill
-  producer: "launcher_skill:D2"
+  producer: "skill:kb-d2"
   inputs:
     - ref: "existing_material"
       required: false

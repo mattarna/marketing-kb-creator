@@ -1,5 +1,5 @@
 # D1 · Tono di voce · NODO KB (riusato dal launcher)
-# Producer: launcher_skill:D1. Qui NON si riscrive la skill: si aggancia e si
+# Producer: skill:kb-d1. Qui NON si riscrive la skill: si aggancia e si
 # porta la rubrica di completezza per l'assessment.
 
 code: "D1"
@@ -40,7 +40,7 @@ elicitation:
 
 execution:
   executor_type: skill
-  producer: "launcher_skill:D1"
+  producer: "skill:kb-d1"
   inputs:
     - ref: "existing_material"
       required: false

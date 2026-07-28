@@ -1,5 +1,5 @@
 # C3 · Architettura funnel completa · NODO KB (riusato dal launcher)
-# Producer: launcher_skill:C3. Qui NON si riscrive la skill: si aggancia e si
+# Producer: skill:kb-c3. Qui NON si riscrive la skill: si aggancia e si
 # porta la rubrica di completezza per l'assessment.
 
 code: "C3"
@@ -42,7 +42,7 @@ elicitation:
 
 execution:
   executor_type: skill
-  producer: "launcher_skill:C3"
+  producer: "skill:kb-c3"
   inputs:
     - ref: "existing_material"
       required: false

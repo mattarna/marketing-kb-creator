@@ -1,5 +1,5 @@
 # C7 · Referral system design · NODO KB (riusato dal launcher)
-# Producer: launcher_skill:C7. Qui NON si riscrive la skill: si aggancia e si
+# Producer: skill:kb-c7. Qui NON si riscrive la skill: si aggancia e si
 # porta la rubrica di completezza per l'assessment.
 
 code: "C7"
@@ -42,7 +42,7 @@ elicitation:
 
 execution:
   executor_type: skill
-  producer: "launcher_skill:C7"
+  producer: "skill:kb-c7"
   inputs:
     - ref: "existing_material"
       required: false
