@@ -1,6 +1,6 @@
 ---
 name: kb-b6
-description: "Produce il documento KB evergreen Halo Strategy (nodo B6) per la knowledge base di marketing di un brand. Adattata dal metodo del launcher, ri-inquadrata come asset permanente (NON per un singolo lancio). Usala dentro il nodo B6 del plugin morfeus-marketing-kb."
+description: "Halo Strategy secondo il METODO SABRI SUBY: ricerca profonda del cliente in 3 tabelle TEMA | FRASE-TRIGGER (paure e dolori, sogni e aspirazioni, barriere e obiezioni), con le frasi in prima persona, il pensiero esatto che il cliente si dice. USA QUESTA SKILL quando l'utente chiede 'halo strategy', 'halo', 'ricerca profonda del cliente', 'le 3 tabelle', 'frasi-trigger', 'paure sogni barriere', 'Sabri Suby', 'cosa pensa davvero il mio cliente'. Qui la produce come documento KB evergreen del brand (nodo B6), non per un singolo lancio. ATTENZIONE, da non confondere: NON e la scelta di quale offerta spingere (halo offer, value ladder, front-end, CAC/LTV, ecosistema prodotti) - quella e un'altra skill e non c'entra nulla con questa."
 ---
 
 # Skill · KB B6 Halo Strategy
